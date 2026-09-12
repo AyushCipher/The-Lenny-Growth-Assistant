@@ -1,0 +1,26 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install python dependencies
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy backend source code and scripts
+COPY backend/ backend/
+COPY scripts/ scripts/
+
+WORKDIR /app/backend
+
+# Ingest and index transcripts at build time
+RUN python -c "from app.rag.indexer import get_hybrid_index; get_hybrid_index().build_index()"
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
