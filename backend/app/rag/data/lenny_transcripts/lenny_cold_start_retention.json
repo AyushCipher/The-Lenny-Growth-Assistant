@@ -1,0 +1,23 @@
+{
+  "source_id": "src_lenny_cold_start_01",
+  "source_reference": "Lenny's Newsletter & Podcast Special",
+  "episode_id": "EP_SPECIAL",
+  "episode_title": "Kickstarting Marketplaces and Solving the Cold Start Problem",
+  "guest": "Lenny Rachitsky",
+  "topic": "Marketplaces & Network Effects",
+  "transcript_version": "1.0.0",
+  "sections": [
+    {
+      "section_id": "lenny_sec_1",
+      "timestamp_str": "03:40",
+      "topic": "Solving the Chicken-and-Egg Marketplace Problem",
+      "dialogue": "Lenny Rachitsky: In two-sided marketplaces, supply and demand are not created equal. In 90% of successful marketplaces (Airbnb, Uber, DoorDash, Etsy), supply is the constraining side. You must obsess over acquiring supply first, often through unscalable manual hustle: door-to-door sales, scraping listings, or offering financial subsidies. Once you achieve high-density local supply in one micro-market (e.g. NYC during a conference), organic demand naturally follows."
+    },
+    {
+      "section_id": "lenny_sec_2",
+      "timestamp_str": "16:20",
+      "topic": "Good vs. Great Retention Benchmarks in SaaS and Marketplaces",
+      "dialogue": "Lenny Rachitsky: Looking at data across top tech companies, what constitutes Good vs. Great 6-month user retention? In Consumer Social, Good is 25%, Great is 45%. In B2B SMB SaaS, Good is 60%, Great is 80%. In Enterprise B2B SaaS, Good net revenue retention (NRR) is 110%, Great NRR is 130%+. If your cohort curves do not flatten out by month 3 or month 6, you must fix product retention before increasing marketing spend."
+    }
+  ]
+}

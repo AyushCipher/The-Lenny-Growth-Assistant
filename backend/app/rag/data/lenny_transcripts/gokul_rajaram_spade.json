@@ -1,0 +1,23 @@
+{
+  "source_id": "src_gokul_rajaram_01",
+  "source_reference": "Lenny's Podcast #95",
+  "episode_id": "EP95",
+  "episode_title": "The SPADE Decision-Making Framework and Executing with Speed",
+  "guest": "Gokul Rajaram",
+  "topic": "Leadership & Decision Making",
+  "transcript_version": "1.0.0",
+  "sections": [
+    {
+      "section_id": "gokul_sec_1",
+      "timestamp_str": "07:15",
+      "topic": "The SPADE Decision-Making Framework",
+      "dialogue": "Lenny: Gokul, you created the SPADE framework at Square and Google. How does it work for difficult product choices?\n\nGokul Rajaram: SPADE stands for: Setting (the context, objective, and why the decision matters now), People (defining the single Responsible decision maker, the Approver, and the Consulted contributors), Alternatives (brainstorming at least 3 distinct, viable options, not just 1 good option and 2 fake strawmen), Decide (the responsible person formally documents their choice with pros and cons), and Explain (communicating the decision and rationale company-wide). The key insight of SPADE is that decisions should never be made by consensus; they must have exactly ONE single accountable decision maker."
+    },
+    {
+      "section_id": "gokul_sec_2",
+      "timestamp_str": "29:10",
+      "topic": "Reversible vs. Irreversible Decisions (Type 1 vs. Type 2)",
+      "dialogue": "Lenny: How do you maintain high organizational velocity as a team scales from 20 to 200 people?\n\nGokul Rajaram: Jeff Bezos popularized Type 1 (two-way door, easily reversible) vs. Type 2 (one-way door, irreversible) decisions. 90% of product decisions are Type 1—like tweaking copy, changing a button color, or testing a pricing page design. If you make a mistake, you can revert it in 10 minutes. Empower individual ICs to make Type 1 decisions with 70% certainty. Reserve extensive executive review and SPADE documentation only for Type 2 decisions, like changing database architecture or major brand positioning."
+    }
+  ]
+}

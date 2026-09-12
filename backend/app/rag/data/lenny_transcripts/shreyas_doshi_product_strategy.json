@@ -1,0 +1,29 @@
+{
+  "source_id": "src_shreyas_doshi_01",
+  "source_reference": "Lenny's Podcast #42",
+  "episode_id": "EP42",
+  "episode_title": "Product Strategy, High Agency, and Good vs. Bad PMs",
+  "guest": "Shreyas Doshi",
+  "topic": "Product Strategy & Career",
+  "transcript_version": "1.0.0",
+  "sections": [
+    {
+      "section_id": "shreyas_sec_1",
+      "timestamp_str": "04:15",
+      "topic": "Definition of High Agency",
+      "dialogue": "Lenny: Shreyas, you often talk about 'High Agency' as the single most critical superpower for product builders. How do you define it?\n\nShreyas Doshi: High agency is the quality where a person finds a way to get what they want, or achieve the outcome they desire, without waiting for the conditions to be perfect, without making excuses, and bending reality to their will. A low-agency person accepts the constraints of the world as given. If a team says 'We can't launch this quarter because Legal is slow,' a low-agency PM shrugs and moves the milestone. A high-agency PM sits with Legal, understands their specific risk model, drafts alternative clause language, and finds a mutually safe path to launch in 48 hours. When hiring PMs, high agency is 10x more valuable than domain familiarity."
+    },
+    {
+      "section_id": "shreyas_sec_2",
+      "timestamp_str": "18:40",
+      "topic": "The LNO Framework for PM Time Management",
+      "dialogue": "Lenny: What is the LNO framework and how should product managers use it to prevent burnout?\n\nShreyas Doshi: The LNO framework categorizes tasks into Leverage (L), Neutral (N), and Overhead (O). Leverage tasks have disproportionate returns—like drafting your product vision or running a high-stakes customer interview; they require your highest energy and perfectionism. Neutral tasks are necessary maintenance that need a good enough standard (B+ work), like standard sprint planning or regular status updates. Overhead tasks are low-value administrative friction that you should do at a C level or delegate entirely. Most junior PMs burn out because they try to do Overhead and Neutral tasks with Leverage-level perfectionism."
+    },
+    {
+      "section_id": "shreyas_sec_3",
+      "timestamp_str": "32:10",
+      "topic": "Pre-mortems and Product Strategy Risk",
+      "dialogue": "Lenny: How do you run an effective Pre-mortem before committing engineering resources?\n\nShreyas Doshi: Before finalizing a product strategy or major roadmap bet, gather the core engineering, design, and product leads. Set the premise: 'Assume it is one year from today, and this product launch has been an utter catastrophe. We missed our growth numbers, customers hate the UX, and executive leadership cancelled the project. Take 10 minutes: write down the exact reasons why we failed.' This removes optimism bias and social pressure. You will instantly surface the unsaid existential risks—whether it's an unscalable database query, a misaligned go-to-market partner, or poor retention mechanics."
+    }
+  ]
+}

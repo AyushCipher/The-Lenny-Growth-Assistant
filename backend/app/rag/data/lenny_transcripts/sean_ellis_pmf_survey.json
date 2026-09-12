@@ -1,0 +1,23 @@
+{
+  "source_id": "src_sean_ellis_01",
+  "source_reference": "Lenny's Podcast #104",
+  "episode_id": "EP104",
+  "episode_title": "Finding Product-Market Fit: The 40% Rule and Growth Engine",
+  "guest": "Sean Ellis",
+  "topic": "Product-Market Fit & Growth",
+  "transcript_version": "1.0.0",
+  "sections": [
+    {
+      "section_id": "sean_sec_1",
+      "timestamp_str": "05:30",
+      "topic": "The 40% Product-Market Fit Survey Metric",
+      "dialogue": "Lenny: Sean, you invented the famous 40% Product-Market Fit survey at Dropbox and LogMeIn. How does it work?\n\nSean Ellis: You ask active users who have experienced your core product value: 'How would you feel if you could no longer use this product tomorrow?' with three options: 1) Very disappointed, 2) Somewhat disappointed, 3) Not disappointed. Across hundreds of startups, we found that if 40% or more answer 'Very disappointed', you have achieved Product-Market Fit and your retention is high enough to scale growth. If you are below 40%, you do not have PMF; pouring marketing dollars into acquisition will only burn capital and result in high churn."
+    },
+    {
+      "section_id": "sean_sec_2",
+      "timestamp_str": "22:15",
+      "topic": "The Superhuman PMF Engine (Segmenting Your Core Fans)",
+      "dialogue": "Lenny: What if a company scores 28% on the survey? How do they improve their score?\n\nSean Ellis: Rahul Vohra codified this at Superhuman. First, segment your survey respondents. Look ONLY at the cohort that said 'Very disappointed'. What are their specific use cases? What features do they love? Next, look at the 'Somewhat disappointed' group whose primary benefit matches your 'Very disappointed' group. Understand their friction points (missing integrations, onboarding confusion, minor bugs). Focus 50% of your roadmap on doubling down on what your superfans love, and 50% on removing the friction that holds back the somewhat disappointed cohort."
+    }
+  ]
+}

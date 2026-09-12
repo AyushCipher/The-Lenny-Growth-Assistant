@@ -1,0 +1,29 @@
+{
+  "source_id": "src_brian_balfour_01",
+  "source_reference": "Lenny's Podcast #71",
+  "episode_id": "EP71",
+  "episode_title": "The Four Growth Fits and Growth Loops vs. Funnels",
+  "guest": "Brian Balfour",
+  "topic": "Growth Strategy & Loops",
+  "transcript_version": "1.0.0",
+  "sections": [
+    {
+      "section_id": "balfour_sec_1",
+      "timestamp_str": "05:50",
+      "topic": "The Four Fits Framework",
+      "dialogue": "Lenny: Brian, why do so many companies fail even after finding Product-Market Fit?\n\nBrian Balfour: Because Product-Market Fit is only 1 of 4 essential fits. To build a $100M+ company, you need: 1) Market-Product Fit (validating the target market problem), 2) Product-Channel Fit (products are built to fit distribution channels, not the other way around), 3) Channel-Model Fit (your monetization model must support the cost of your channel—e.g. low ARPU requires viral/SEO channels; high ARPU supports outbound sales), and 4) Model-Market Fit (your pricing multiplied by your reachable TAM must generate sufficient venture-scale revenue). These fits are interconnected and constantly shifting."
+    },
+    {
+      "section_id": "balfour_sec_2",
+      "timestamp_str": "24:15",
+      "topic": "Growth Loops vs. Traditional Marketing Funnels",
+      "dialogue": "Lenny: Why do you advocate for Growth Loops over traditional top-down marketing funnels?\n\nBrian Balfour: Funnels are linear and unsustainable. You put money in the top to acquire 100 users, 10 activate, 2 pay, and 0 reinvest back into the system. You have to constantly feed the beast with more ad spend. Growth Loops, in contrast, are closed compounding systems where the output of one cohort of users directly serves as the input to acquire or re-engage the next cohort. For example, in a UGC Viral Loop: User creates a document -> shares with colleague -> colleague signs up to view -> colleague creates their own document. Loops create compounding defensibility."
+    },
+    {
+      "section_id": "balfour_sec_3",
+      "timestamp_str": "41:00",
+      "topic": "Retention as the Foundation of the Growth Engine",
+      "dialogue": "Lenny: What happens when a startup tries to optimize acquisition before retention is solved?\n\nBrian Balfour: Pouring water into a leaky bucket never works. If your retention cohort curve slopes continuously downward to zero, no amount of viral loops or paid marketing will save you. Sustainable growth requires retention curves that flatten parallel to the x-axis. Good retention creates word of mouth, increases customer lifetime value (LTV), and gives you the economic headroom to outspend competitors on acquisition channels."
+    }
+  ]
+}

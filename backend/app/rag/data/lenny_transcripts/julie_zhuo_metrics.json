@@ -1,0 +1,23 @@
+{
+  "source_id": "src_julie_zhuo_01",
+  "source_reference": "Lenny's Podcast #89",
+  "episode_id": "EP89",
+  "episode_title": "Building Metrics That Matter: Leading vs. Lagging Indicators",
+  "guest": "Julie Zhuo",
+  "topic": "Metrics & Product Management",
+  "transcript_version": "1.0.0",
+  "sections": [
+    {
+      "section_id": "julie_sec_1",
+      "timestamp_str": "08:20",
+      "topic": "Leading vs. Lagging Metrics",
+      "dialogue": "Lenny: Julie, how do you prevent product teams from obsessing over lagging metrics like Revenue or Monthly Active Users (MAU)?\n\nJulie Zhuo: Revenue and MAU are lagging outcomes; by the time they drop, your product has been failing for months. High-performing teams focus obsessively on Leading Indicators—the specific, high-frequency user behaviors that directly predict long-term retention and customer satisfaction. At Facebook, we discovered that users who added 7 friends in their first 10 days retained at 3x the rate of others. That leading metric guided our entire onboarding experience. Find the earliest behavioral proxy for core value delivery."
+    },
+    {
+      "section_id": "julie_sec_2",
+      "timestamp_str": "23:45",
+      "topic": "Counter-Metrics and Guardrail Metrics",
+      "dialogue": "Lenny: Why is every North Star Metric dangerous without a paired Counter-Metric?\n\nJulie Zhuo: If you tell an engineering team to optimize push notification click-through rate (CTR), they can double it tomorrow by spamming users with clickbait notifications. But in doing so, they will destroy long-term trust and app uninstalls will skyrocket. Every North Star metric must have a paired Counter-Metric (Guardrail Metric). If your primary goal is notification engagement, your counter-metric must be push notification opt-out rate or app uninstalls. Guardrails ensure teams optimize for durable value rather than superficial local maxima."
+    }
+  ]
+}

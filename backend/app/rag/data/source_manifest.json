@@ -1,0 +1,79 @@
+[
+  {
+    "source_id": "src_shreyas_doshi_01",
+    "source_reference": "Lenny's Podcast #42",
+    "episode_id": "EP42",
+    "episode_title": "Product Strategy, High Agency, and Good vs. Bad PMs",
+    "guest": "Shreyas Doshi",
+    "topic": "Product Strategy & Career",
+    "transcript_version": "1.0.0",
+    "source_hash": "4eaab32743bc5d6e",
+    "ingested_at": "2026-09-12T17:09:06.135064+00:00"
+  },
+  {
+    "source_id": "src_elena_verna_01",
+    "source_reference": "Lenny's Podcast #58",
+    "episode_id": "EP58",
+    "episode_title": "Product-Led Growth (PLG), B2B Funnels, and Viral Loops",
+    "guest": "Elena Verna",
+    "topic": "Growth & PLG",
+    "transcript_version": "1.0.0",
+    "source_hash": "a82acf647c3fb3de",
+    "ingested_at": "2026-09-12T17:09:06.131064+00:00"
+  },
+  {
+    "source_id": "src_brian_balfour_01",
+    "source_reference": "Lenny's Podcast #71",
+    "episode_id": "EP71",
+    "episode_title": "The Four Growth Fits and Growth Loops vs. Funnels",
+    "guest": "Brian Balfour",
+    "topic": "Growth Strategy & Loops",
+    "transcript_version": "1.0.0",
+    "source_hash": "57a17ef91967e05a",
+    "ingested_at": "2026-09-12T17:09:06.130106+00:00"
+  },
+  {
+    "source_id": "src_julie_zhuo_01",
+    "source_reference": "Lenny's Podcast #89",
+    "episode_id": "EP89",
+    "episode_title": "Building Metrics That Matter: Leading vs. Lagging Indicators",
+    "guest": "Julie Zhuo",
+    "topic": "Metrics & Product Management",
+    "transcript_version": "1.0.0",
+    "source_hash": "ce54ef0de9776ab8",
+    "ingested_at": "2026-09-12T17:09:06.133064+00:00"
+  },
+  {
+    "source_id": "src_gokul_rajaram_01",
+    "source_reference": "Lenny's Podcast #95",
+    "episode_id": "EP95",
+    "episode_title": "The SPADE Decision-Making Framework and Executing with Speed",
+    "guest": "Gokul Rajaram",
+    "topic": "Leadership & Decision Making",
+    "transcript_version": "1.0.0",
+    "source_hash": "eab2ec89921b1bb6",
+    "ingested_at": "2026-09-12T17:09:06.132061+00:00"
+  },
+  {
+    "source_id": "src_sean_ellis_01",
+    "source_reference": "Lenny's Podcast #104",
+    "episode_id": "EP104",
+    "episode_title": "Finding Product-Market Fit: The 40% Rule and Growth Engine",
+    "guest": "Sean Ellis",
+    "topic": "Product-Market Fit & Growth",
+    "transcript_version": "1.0.0",
+    "source_hash": "a4eb16bdb0533954",
+    "ingested_at": "2026-09-12T17:09:06.134063+00:00"
+  },
+  {
+    "source_id": "src_lenny_cold_start_01",
+    "source_reference": "Lenny's Newsletter & Podcast Special",
+    "episode_id": "EP_SPECIAL",
+    "episode_title": "Kickstarting Marketplaces and Solving the Cold Start Problem",
+    "guest": "Lenny Rachitsky",
+    "topic": "Marketplaces & Network Effects",
+    "transcript_version": "1.0.0",
+    "source_hash": "98cd9c4641f3578c",
+    "ingested_at": "2026-09-12T17:09:06.133064+00:00"
+  }
+]

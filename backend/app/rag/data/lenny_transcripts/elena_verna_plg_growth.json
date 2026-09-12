@@ -1,0 +1,29 @@
+{
+  "source_id": "src_elena_verna_01",
+  "source_reference": "Lenny's Podcast #58",
+  "episode_id": "EP58",
+  "episode_title": "Product-Led Growth (PLG), B2B Funnels, and Viral Loops",
+  "guest": "Elena Verna",
+  "topic": "Growth & PLG",
+  "transcript_version": "1.0.0",
+  "sections": [
+    {
+      "section_id": "elena_sec_1",
+      "timestamp_str": "06:10",
+      "topic": "Core Definition and Pillars of Product-Led Growth (PLG)",
+      "dialogue": "Lenny: Elena, what is the most misunderstood aspect of Product-Led Growth in B2B SaaS?\n\nElena Verna: People mistakenly think PLG is just having a self-serve credit card checkout on your website. That is wrong. PLG is a go-to-market strategy where the product itself drives customer acquisition, activation, retention, monetization, and expansion. In true PLG, the end user is the champion, experiencing the 'Aha!' moment before any sales rep gets on a call. The product delivers immediate standalone value, lowers time-to-value (TTV) to under 5 minutes, and embeds viral collaboration or product usage triggers that organically pull in other team members."
+    },
+    {
+      "section_id": "elena_sec_2",
+      "timestamp_str": "21:30",
+      "topic": "Product-Led Sales (PLS) and Product-Qualified Leads (PQLs)",
+      "dialogue": "Lenny: When should a PLG company layer on a sales team, and how do you define a PQL?\n\nElena Verna: PLG and Sales are not enemies; Product-Led Sales (PLS) is the ultimate growth multiplier. You layer on sales when you have healthy top-of-funnel self-serve activation. A Product-Qualified Lead (PQL) is not someone who downloaded a whitepaper or filled out a demo request. A PQL is a user or account that has reached meaningful usage thresholds inside your free tier—for instance, creating 3 active projects, inviting 5 collaborators, and hitting 80% of their feature limit within 14 days. Your sales team reaches out not to explain what the product does, but to help them consolidate enterprise billing, security (SSO/SAML), and team-wide governance."
+    },
+    {
+      "section_id": "elena_sec_3",
+      "timestamp_str": "39:45",
+      "topic": "Freemium vs. Free Trial Economics",
+      "dialogue": "Lenny: How should founders choose between Freemium and a Time-Bound Free Trial?\n\nElena Verna: If your product has a strong viral loop or network effects (like Figma, Miro, or Slack), Freemium is mandatory because you need permanent free seats to accumulate organic usage and collaboration data. However, if your product has high incremental infrastructure cost per user or solves an urgent, episodic problem where they get value once and leave, a 14-day reverse trial with feature gates is significantly more effective to drive monetization velocity."
+    }
+  ]
+}
