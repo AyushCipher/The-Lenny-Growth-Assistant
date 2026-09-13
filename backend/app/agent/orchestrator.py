@@ -52,6 +52,29 @@ class AgentOrchestrator:
     ) -> tuple[str, list[Citation], list[ArtifactBase], GenerationResult, float]:
         start_time = time.time()
 
+        # 0. Deterministic Anti-Hallucination Guardrail Check
+        OUT_OF_DOMAIN_PATTERNS = [
+            r"\brecipe\b", r"\bcook(ing)?\b", r"\bpasta\b", r"\bcarbonara\b", r"\bpizza\b", r"\bcake\b",
+            r"\bweather\b", r"\bhoroscope\b", r"\bquantum physics\b", r"\bmedical diagnosis\b",
+            r"\bwho won the (super bowl|world cup|nba)\b", r"\bhow to bake\b"
+        ]
+        if any(re.search(pat, user_message, re.IGNORECASE) for pat in OUT_OF_DOMAIN_PATTERNS):
+            refusal_text = (
+                "I am The Lenny Growth Assistant, specifically focused on product management, growth frameworks, "
+                "and startup strategy from Lenny's Podcast. The knowledge base does not contain information on this topic. "
+                "Please feel free to ask about product strategy, growth loops, metrics, or PM career frameworks."
+            )
+            gen_result = GenerationResult(
+                text=refusal_text,
+                input_tokens=0,
+                output_tokens=len(refusal_text.split()),
+                total_tokens=len(refusal_text.split()),
+                latency_ms=(time.time() - start_time) * 1000.0,
+                provider=provider_override or model_router.active_provider,
+                model="guardrail"
+            )
+            return refusal_text, [], [], gen_result, (time.time() - start_time) * 1000.0
+
         # 1. RAG Retrieval Step
         rag_results, rag_latency_ms = retriever.retrieve(user_message, top_k=5)
         grounding_context = retriever.format_grounding_context(rag_results)
@@ -81,6 +104,18 @@ Please provide an authoritative, grounded answer based strictly on the transcrip
 
         # 4. Artifact Extraction & Sanitization Step
         cleaned_text, artifacts = self.parse_artifacts_from_text(gen_result.text)
+
+        # 5. Out-of-domain refusal check: clear citations if query was declined
+        lower_text = cleaned_text.lower()
+        if any(phrase in lower_text for phrase in [
+            "does not contain information",
+            "not covered in the transcript",
+            "knowledge base does not",
+            "specifically focused on product management",
+            "specialized in product management",
+            "does not cover"
+        ]):
+            citations = []
 
         total_latency_ms = (time.time() - start_time) * 1000.0
         return cleaned_text, citations, artifacts, gen_result, total_latency_ms
