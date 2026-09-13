@@ -11,7 +11,8 @@ import {
   fetchSessionDetails,
   deleteSession,
   sendChatMessage,
-  generateShip30Essay
+  generateShip30Essay,
+  fetchModels
 } from './services/api';
 
 export default function App() {
@@ -25,10 +26,10 @@ export default function App() {
   const [isSourceDrawerOpen, setIsSourceDrawerOpen] = useState(false);
   const [isShip30ModalOpen, setIsShip30ModalOpen] = useState(false);
   const [isDiagnosticsModalOpen, setIsDiagnosticsModalOpen] = useState(false);
-  const [activeProvider, setActiveProvider] = useState('ollama');
+  const [activeProvider, setActiveProvider] = useState('groq');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Load initial sessions
+  // Load initial sessions and active model
   const loadSessionsList = async () => {
     try {
       const data = await fetchSessions();
@@ -43,6 +44,11 @@ export default function App() {
 
   useEffect(() => {
     loadSessionsList();
+    fetchModels().then(data => {
+      if (data?.active_provider) {
+        setActiveProvider(data.active_provider);
+      }
+    }).catch(err => console.error("Failed to load active model", err));
   }, []);
 
   const selectSession = async (sessionId) => {

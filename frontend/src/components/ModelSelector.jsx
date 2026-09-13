@@ -40,11 +40,11 @@ export default function ModelSelector({ activeProvider, onModelChanged }) {
   const DEFAULT_MODELS = [
     {
       provider: 'groq',
-      model_name: 'llama-3.3-70b-versatile',
-      display_name: 'Groq Cloud (llama-3.3-70b-versatile) [Ultra Fast]',
+      model_name: 'openai/gpt-oss-120b',
+      display_name: 'Groq Cloud (gpt-oss-120b) [Ultra Fast]',
       is_available: true,
       status_message: 'Groq Cloud ready',
-      is_active: activeProvider === 'groq'
+      is_active: activeProvider === 'groq' || !activeProvider
     },
     {
       provider: 'ollama',
