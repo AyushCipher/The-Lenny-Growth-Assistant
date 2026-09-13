@@ -50,16 +50,33 @@ class OllamaAdapter(BaseModelAdapter):
                 res = await client.get(f"{self.base_url}/api/tags")
                 if res.status_code == 200:
                     models = [m.get("name") for m in res.json().get("models", [])]
-                    return True, f"Ollama is running ({len(models)} models available: {', '.join(models[:3])})"
+                    if not models:
+                        return False, "Ollama running, but no models downloaded (Run: ollama pull llama3)"
+                    return True, f"Ollama ready ({len(models)} model{'s' if len(models)>1 else ''}: {', '.join(models[:3])})"
                 return False, f"Ollama returned status {res.status_code}"
         except Exception as e:
             return False, f"Ollama offline ({self.base_url})"
 
     async def generate(self, prompt: str, system_prompt: str) -> GenerationResult:
         start_time = time.time()
+        
+        # 1. Resolve available model name if default is missing
+        active_model = self.model
+        try:
+            async with httpx.AsyncClient(timeout=2.0) as client:
+                tags_res = await client.get(f"{self.base_url}/api/tags")
+                if tags_res.status_code == 200:
+                    models = [m.get("name") for m in tags_res.json().get("models", [])]
+                    if models:
+                        # Match exact or prefix (e.g. llama3 matches llama3:latest or llama3.2)
+                        matched = next((m for m in models if self.model in m or m in self.model), None)
+                        active_model = matched or models[0]
+        except Exception:
+            pass
+
         url = f"{self.base_url}/api/generate"
         payload = {
-            "model": self.model,
+            "model": active_model,
             "prompt": prompt,
             "system": system_prompt,
             "stream": False,
@@ -72,6 +89,10 @@ class OllamaAdapter(BaseModelAdapter):
         try:
             async with httpx.AsyncClient(timeout=self.timeout) as client:
                 res = await client.post(url, json=payload)
+                if res.status_code == 404:
+                    raise RuntimeError(
+                        f"Ollama model '{active_model}' was not found. Please run `ollama pull {self.model}` in your terminal to download it, or switch to Groq Cloud in the top-right model dropdown."
+                    )
                 res.raise_for_status()
                 data = res.json()
                 latency_ms = (time.time() - start_time) * 1000.0
@@ -88,15 +109,17 @@ class OllamaAdapter(BaseModelAdapter):
                     total_tokens=total_tokens,
                     latency_ms=latency_ms,
                     provider="ollama",
-                    model=self.model
+                    model=active_model
                 )
         except Exception as e:
             latency_ms = (time.time() - start_time) * 1000.0
             logger.error(f"Ollama generation failed: {e}")
+            if "model" in str(e).lower() and "not found" in str(e).lower():
+                raise RuntimeError(str(e))
             raise RuntimeError(
-                f"Ollama generation failed ({self.base_url} / {self.model}): {str(e)}. "
-                "Ensure Ollama is running (`ollama serve`) and the model is downloaded (`ollama pull "
-                f"{self.model}`)."
+                f"Ollama generation failed: {str(e)}. "
+                f"Ensure Ollama is running and model '{self.model}' is downloaded (`ollama pull {self.model}`). "
+                "Alternatively, select Groq Cloud in the top-right model menu."
             )
 
 
