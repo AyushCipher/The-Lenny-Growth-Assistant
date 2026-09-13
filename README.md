@@ -2,7 +2,7 @@
 > **Forward Deployed Engineer Take-Home Assessment**  
 > **Author**: Ayush Verma (`ayushv3533e@gmail.com`)  
 > **Repository**: [https://github.com/AyushCipher/The-Lenny-Growth-Assistant](https://github.com/AyushCipher/The-Lenny-Growth-Assistant)  
-> **Demo Walkthrough Video**: [YouTube Walkthrough (Camera Enabled)](https://youtube.com/watch?v=YOUR_DEMO_VIDEO_ID_HERE)
+> **Demo Walkthrough Video**: [Google Drive Link](https://drive.google.com/file/d/1l7fc7T2-YiuJjJqm9VDSHO45yMUheGv2/view?usp=sharing)
 
 ---
 
