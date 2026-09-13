@@ -12,7 +12,9 @@ export default function ChatArea({
   onOpenArtifact,
   activeProvider,
   onModelChanged,
-  onTriggerShip30
+  onTriggerShip30,
+  sessionArtifacts = [],
+  activeArtifact = null
 }) {
   const [inputMessage, setInputMessage] = useState('');
   const messagesEndRef = useRef(null);
@@ -77,6 +79,26 @@ export default function ChatArea({
         </div>
 
         <div className="flex items-center gap-3">
+          {sessionArtifacts && sessionArtifacts.length > 0 && (
+            <button
+              onClick={() => {
+                if (activeArtifact) {
+                  onOpenArtifact(null);
+                } else {
+                  onOpenArtifact(sessionArtifacts[sessionArtifacts.length - 1]);
+                }
+              }}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer shadow-sm ${
+                activeArtifact
+                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-indigo-500/20'
+                  : 'bg-indigo-950/40 text-indigo-300 border-indigo-500/40 hover:bg-indigo-900/60 hover:text-white'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-300" />
+              <span>{activeArtifact ? 'Hide Artifact' : `View Artifact (${sessionArtifacts.length})`}</span>
+            </button>
+          )}
+
           <ModelSelector
             activeProvider={activeProvider}
             onModelChanged={onModelChanged}
@@ -131,6 +153,7 @@ export default function ChatArea({
                   message={msg}
                   onSelectSource={onSelectSource}
                   onOpenArtifact={onOpenArtifact}
+                  allArtifacts={sessionArtifacts}
                 />
               ))}
 

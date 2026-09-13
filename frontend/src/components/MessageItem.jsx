@@ -1,14 +1,25 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { User, Sparkles, Clock, Zap, Cpu } from 'lucide-react';
+import { User, Sparkles, Clock, Zap, Cpu, Eye, Code, Layers } from 'lucide-react';
 import CitationChip from './CitationChip';
 
-export default function MessageItem({ message, onSelectSource, onOpenArtifact }) {
+export default function MessageItem({ message, onSelectSource, onOpenArtifact, allArtifacts = [] }) {
   const isUser = message.role === 'user';
-
-  // Helper to replace raw citation tags in text with clickable spans or just let ReactMarkdown render
   const citations = message.citations || [];
+
+  // Check if message generated or references an artifact
+  const hasArtifactMention = typeof message.content === 'string' && (
+    message.content.includes('Artifact Generated:') ||
+    message.content.includes(':::artifact') ||
+    message.content.includes('<!DOCTYPE html>')
+  );
+
+  const matchedArtifact = (allArtifacts && allArtifacts.length > 0)
+    ? (allArtifacts.find(a => a.message_id === message.id) || allArtifacts[allArtifacts.length - 1])
+    : null;
+
+  const showArtifactCard = !isUser && (hasArtifactMention || message.artifacts?.length > 0) && matchedArtifact;
 
   return (
     <div className={`py-5 px-4 md:px-6 rounded-2xl mb-4 transition-all ${
@@ -53,6 +64,38 @@ export default function MessageItem({ message, onSelectSource, onOpenArtifact })
           {message.content}
         </ReactMarkdown>
       </div>
+
+      {/* Interactive Artifact Card */}
+      {showArtifactCard && (
+        <div className="mt-4 p-3.5 rounded-xl bg-gradient-to-r from-indigo-950/70 via-slate-900 to-purple-950/70 border border-indigo-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg shadow-indigo-950/30 animate-fadeIn">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-indigo-600/30 text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/30">
+              <Layers className="w-5 h-5 text-indigo-300" />
+            </div>
+            <div>
+              <div className="text-xs font-bold text-slate-100 flex items-center gap-2">
+                <span>{matchedArtifact.title || "Interactive Growth Application"}</span>
+                <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                  {matchedArtifact.type || "HTML"}
+                </span>
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                Live interactive tool with real-time sliders, compounding simulation, and source code.
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => onOpenArtifact && onOpenArtifact(matchedArtifact)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/30 transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Preview & Code</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Citations Shelf */}
       {citations.length > 0 && (

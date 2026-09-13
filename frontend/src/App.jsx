@@ -234,6 +234,8 @@ export default function App() {
           activeProvider={activeProvider}
           onModelChanged={(prov) => setActiveProvider(prov)}
           onTriggerShip30={() => setIsShip30ModalOpen(true)}
+          sessionArtifacts={sessionArtifacts}
+          activeArtifact={activeArtifact}
         />
 
         {/* Right Split Pane: Claude-Style Artifact Viewer */}
