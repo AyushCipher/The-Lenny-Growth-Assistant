@@ -39,21 +39,21 @@ class BaseModelAdapter(ABC):
 
 
 class OllamaAdapter(BaseModelAdapter):
-    def __init__(self, base_url: str = settings.OLLAMA_BASE_URL, model: str = settings.OLLAMA_MODEL):
-        self.base_url = base_url.rstrip("/")
-        self.model = model
+    def __init__(self, base_url: Optional[str] = None, model: Optional[str] = None):
+        self.base_url = (base_url or settings.OLLAMA_BASE_URL).rstrip("/")
+        self.model = model or settings.OLLAMA_MODEL
         self.timeout = settings.OLLAMA_TIMEOUT_SECONDS
 
     async def check_health(self) -> tuple[bool, str]:
         try:
-            async with httpx.AsyncClient(timeout=3.0) as client:
+            async with httpx.AsyncClient(timeout=1.5) as client:
                 res = await client.get(f"{self.base_url}/api/tags")
                 if res.status_code == 200:
                     models = [m.get("name") for m in res.json().get("models", [])]
                     return True, f"Ollama is running ({len(models)} models available: {', '.join(models[:3])})"
                 return False, f"Ollama returned status {res.status_code}"
         except Exception as e:
-            return False, f"Ollama unreachable at {self.base_url}: {str(e)}"
+            return False, f"Ollama offline ({self.base_url})"
 
     async def generate(self, prompt: str, system_prompt: str) -> GenerationResult:
         start_time = time.time()
@@ -101,16 +101,20 @@ class OllamaAdapter(BaseModelAdapter):
 
 
 class ClaudeAdapter(BaseModelAdapter):
-    def __init__(self, api_key: Optional[str] = settings.ANTHROPIC_API_KEY, model: str = settings.ANTHROPIC_MODEL):
-        self.api_key = api_key
-        self.model = model
+    def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None):
+        self._api_key = api_key
+        self.model = model or settings.ANTHROPIC_MODEL
+
+    @property
+    def api_key(self) -> Optional[str]:
+        return self._api_key if self._api_key is not None else settings.ANTHROPIC_API_KEY
 
     async def check_health(self) -> tuple[bool, str]:
         if not self.api_key:
             return False, "ANTHROPIC_API_KEY is not configured in .env"
         if not anthropic:
             return False, "Anthropic SDK is not installed"
-        return True, f"Anthropic Claude configured ({self.model})"
+        return True, f"Anthropic Claude ready ({self.model})"
 
     async def generate(self, prompt: str, system_prompt: str) -> GenerationResult:
         if not self.api_key or not anthropic:
@@ -147,16 +151,20 @@ class ClaudeAdapter(BaseModelAdapter):
 
 
 class OpenAIAdapter(BaseModelAdapter):
-    def __init__(self, api_key: Optional[str] = settings.OPENAI_API_KEY, model: str = settings.OPENAI_MODEL):
-        self.api_key = api_key
-        self.model = model
+    def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None):
+        self._api_key = api_key
+        self.model = model or settings.OPENAI_MODEL
+
+    @property
+    def api_key(self) -> Optional[str]:
+        return self._api_key if self._api_key is not None else settings.OPENAI_API_KEY
 
     async def check_health(self) -> tuple[bool, str]:
         if not self.api_key:
             return False, "OPENAI_API_KEY is not configured in .env"
         if not openai:
             return False, "OpenAI SDK is not installed"
-        return True, f"OpenAI configured ({self.model})"
+        return True, f"OpenAI ready ({self.model})"
 
     async def generate(self, prompt: str, system_prompt: str) -> GenerationResult:
         if not self.api_key or not openai:
@@ -195,17 +203,21 @@ class OpenAIAdapter(BaseModelAdapter):
 class GroqAdapter(BaseModelAdapter):
     def __init__(
         self,
-        api_key: Optional[str] = settings.GROQ_API_KEY,
-        model: str = settings.GROQ_MODEL,
-        base_url: str = settings.GROQ_BASE_URL
+        api_key: Optional[str] = None,
+        model: Optional[str] = None,
+        base_url: Optional[str] = None
     ):
-        self.api_key = api_key
-        self.model = model
-        self.base_url = base_url
+        self._api_key = api_key
+        self.model = model or settings.GROQ_MODEL
+        self.base_url = base_url or settings.GROQ_BASE_URL
+
+    @property
+    def api_key(self) -> Optional[str]:
+        return self._api_key if self._api_key is not None else settings.GROQ_API_KEY
 
     async def check_health(self) -> tuple[bool, str]:
         if not self.api_key:
-            return False, "GROQ_API_KEY is not configured"
+            return False, "GROQ_API_KEY is not configured in .env"
         if not openai:
             return False, "OpenAI client library is required for Groq"
         return True, f"Groq Cloud ready ({self.model})"

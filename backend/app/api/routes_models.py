@@ -6,6 +6,7 @@ router = APIRouter(prefix="/api/models", tags=["Model Provider Switcher"])
 
 
 @router.get("", response_model=ModelListResponse)
+@router.get("/", response_model=ModelListResponse)
 async def get_models():
     model_statuses = await model_router.list_model_statuses()
     return ModelListResponse(

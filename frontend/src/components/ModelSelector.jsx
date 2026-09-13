@@ -37,11 +37,44 @@ export default function ModelSelector({ activeProvider, onModelChanged }) {
     }
   };
 
-  const currentModel = modelsData?.models?.find(m => m.is_active) || {
-    provider: activeProvider || 'ollama',
-    display_name: 'Local Ollama (llama3) [Demo Mandatory]',
-    is_available: true
-  };
+  const DEFAULT_MODELS = [
+    {
+      provider: 'groq',
+      model_name: 'llama-3.3-70b-versatile',
+      display_name: 'Groq Cloud (llama-3.3-70b-versatile) [Ultra Fast]',
+      is_available: true,
+      status_message: 'Groq Cloud ready',
+      is_active: activeProvider === 'groq'
+    },
+    {
+      provider: 'ollama',
+      model_name: 'llama3',
+      display_name: 'Local Ollama (llama3) [Demo Mandatory]',
+      is_available: true,
+      status_message: 'Offline Local Demo Model',
+      is_active: activeProvider === 'ollama' || !activeProvider
+    },
+    {
+      provider: 'anthropic',
+      model_name: 'claude-3-5-sonnet-20241022',
+      display_name: 'Anthropic Claude (claude-3-5-sonnet)',
+      is_available: false,
+      status_message: 'Requires ANTHROPIC_API_KEY in .env',
+      is_active: activeProvider === 'anthropic'
+    },
+    {
+      provider: 'openai',
+      model_name: 'gpt-4o',
+      display_name: 'OpenAI (gpt-4o)',
+      is_available: false,
+      status_message: 'Requires OPENAI_API_KEY in .env',
+      is_active: activeProvider === 'openai'
+    }
+  ];
+
+  const modelsList = modelsData?.models?.length ? modelsData.models : DEFAULT_MODELS;
+
+  const currentModel = modelsList.find(m => m.is_active) || modelsList[0];
 
   return (
     <div className="relative">
@@ -70,7 +103,7 @@ export default function ModelSelector({ activeProvider, onModelChanged }) {
             </div>
 
             <div className="space-y-1 mt-1.5">
-              {modelsData?.models?.map((m) => (
+              {modelsList.map((m) => (
                 <button
                   key={m.provider}
                   onClick={() => handleSelect(m.provider)}
