@@ -203,7 +203,11 @@ class OpenAIAdapter(BaseModelAdapter):
             raise ValueError("OpenAI API key is not configured. Add OPENAI_API_KEY to your .env file.")
 
         start_time = time.time()
-        client = openai.AsyncOpenAI(api_key=self.api_key)
+        client = openai.AsyncOpenAI(
+            api_key=self.api_key,
+            timeout=60.0,
+            max_retries=3
+        )
         try:
             response = await client.chat.completions.create(
                 model=self.model,
@@ -259,7 +263,12 @@ class GroqAdapter(BaseModelAdapter):
             raise ValueError("Groq API key is not configured. Add GROQ_API_KEY to your .env file.")
 
         start_time = time.time()
-        client = openai.AsyncOpenAI(api_key=self.api_key, base_url=self.base_url)
+        client = openai.AsyncOpenAI(
+            api_key=self.api_key,
+            base_url=self.base_url,
+            timeout=60.0,
+            max_retries=3
+        )
         try:
             response = await client.chat.completions.create(
                 model=self.model,
