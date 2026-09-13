@@ -1,5 +1,6 @@
 import uuid
 import time
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -78,6 +79,7 @@ async def chat_completion(request: ChatRequest, db: AsyncSession = Depends(get_d
         )
 
     # 5. Persist Assistant Message
+    now_utc = datetime.now(timezone.utc)
     assistant_msg_id = str(uuid.uuid4())
     citations_data = [c.dict() for c in citations]
     assistant_msg = MessageModel(
@@ -88,6 +90,7 @@ async def chat_completion(request: ChatRequest, db: AsyncSession = Depends(get_d
         citations=citations_data,
         model_used=f"{gen_result.provider}:{gen_result.model}",
         latency_ms=total_latency_ms,
+        timestamp=now_utc,
     )
     db.add(assistant_msg)
 
@@ -103,7 +106,8 @@ async def chat_completion(request: ChatRequest, db: AsyncSession = Depends(get_d
             type=art.type,
             content=art.content,
             sanitized_content=art.sanitized_content,
-            version=1
+            version=1,
+            created_at=now_utc
         )
         db.add(art_model)
         created_artifact_responses.append(
@@ -116,7 +120,7 @@ async def chat_completion(request: ChatRequest, db: AsyncSession = Depends(get_d
                 content=art.content,
                 sanitized_content=art.sanitized_content,
                 version=1,
-                created_at=assistant_msg.timestamp
+                created_at=now_utc
             )
         )
 

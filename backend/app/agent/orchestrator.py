@@ -19,16 +19,35 @@ class AgentOrchestrator:
 
     def parse_artifacts_from_text(self, text: str) -> tuple[str, list[ArtifactBase]]:
         """
-        Extracts artifact blocks: :::artifact{title="..." type="..."} ... :::
+        Extracts artifact blocks:
+        1. :::artifact{title="..." type="..."} ... ::: (or until </html> or end of text)
+        2. ```html <!DOCTYPE html> ... ``` blocks if present
         """
         artifacts: list[ArtifactBase] = []
-        pattern = r':::artifact\{title="([^"]+)"\s+type="([^"]+)"\}\s*\n(.*?)?\n:::'
         
+        # Primary regex: matches :::artifact{...} ... (::: | </html> | $)
+        pattern = r':::artifact\{([^}]+)\}\s*\n?(.*?)(?:\n:::|\n?</html>\s*(?:\n:::)?|$)'
+
         def replace_artifact(match):
-            title = match.group(1)
-            art_type = match.group(2).lower()
-            content = match.group(3) or ""
+            header = match.group(1)
+            content = (match.group(2) or "").strip()
             
+            # Extract title and type from header
+            title_m = re.search(r'title=["\']([^"\']+)["\']', header, re.IGNORECASE)
+            type_m = re.search(r'type=["\']([^"\']+)["\']', header, re.IGNORECASE)
+            
+            title = title_m.group(1) if title_m else "Interactive Tool"
+            art_type = (type_m.group(1) if type_m else "html").lower()
+            
+            # Ensure proper HTML closure if token limit ended near closing
+            if art_type == "html":
+                if "<html" in content.lower() and "</html>" not in content.lower():
+                    if "</script>" not in content.lower() and "<script" in content.lower():
+                        content += "\n</script>"
+                    if "</body>" not in content.lower():
+                        content += "\n</body>"
+                    content += "\n</html>"
+
             sanitized = sanitize_html(content) if art_type == "html" else content
             artifacts.append(
                 ArtifactBase(
@@ -39,10 +58,29 @@ class AgentOrchestrator:
                     version=1
                 )
             )
-            return f"\n> 🎨 **Artifact Generated: [{title}]** *(View interactive preview in the Artifact Viewer on the right)*\n"
+            return f"\n\n> 🎨 **Artifact Generated: [{title}]** *(View interactive preview in the Artifact Viewer on the right)*\n\n"
 
-        cleaned_text = re.sub(pattern, replace_artifact, text, flags=re.DOTALL)
-        return cleaned_text, artifacts
+        if ":::artifact" in text:
+            cleaned_text = re.sub(pattern, replace_artifact, text, flags=re.DOTALL)
+        else:
+            html_block_pattern = r'```html\s*\n(<!DOCTYPE html>.*?)```'
+            def replace_html_block(m):
+                content = m.group(1).strip()
+                title = "Interactive Tool"
+                sanitized = sanitize_html(content)
+                artifacts.append(
+                    ArtifactBase(
+                        title=title,
+                        type="html",
+                        content=content,
+                        sanitized_content=sanitized,
+                        version=1
+                    )
+                )
+                return f"\n\n> 🎨 **Artifact Generated: [{title}]** *(View interactive preview in the Artifact Viewer on the right)*\n\n"
+            cleaned_text = re.sub(html_block_pattern, replace_html_block, text, flags=re.DOTALL)
+
+        return cleaned_text.strip(), artifacts
 
     async def execute_chat(
         self,
@@ -89,6 +127,21 @@ class AgentOrchestrator:
                 history_blocks.append(f"{role}: {msg.get('content', '')}")
             history_formatted = "\n--- PREVIOUS CONVERSATION HISTORY ---\n" + "\n".join(history_blocks) + "\n-------------------------------------\n"
 
+        is_artifact_request = bool(re.search(r"\b(calculator|tool|widget|simulation|dashboard|matrix|artifact|interactive|html)\b", user_message, re.IGNORECASE))
+
+        if is_artifact_request:
+            instruction = (
+                "The user is requesting an interactive tool or calculator. "
+                "Synthesize product and growth principles from the transcripts and standard SaaS/growth formulas. "
+                "You MUST generate the complete, self-contained interactive HTML/CSS/JS application inside the :::artifact{title=\"...\" type=\"html\"} ... ::: block, "
+                "along with a concise strategic overview grounded in the transcript concepts."
+            )
+        else:
+            instruction = (
+                "Please provide an authoritative, grounded answer based on the transcript evidence above. "
+                "If the topic is completely outside product management, growth, startups, or tech careers, state so gracefully."
+            )
+
         user_prompt = f"""{history_formatted}
 --- LENNY PODCAST TRANSCRIPT EVIDENCE ---
 {grounding_context}
@@ -96,7 +149,7 @@ class AgentOrchestrator:
 
 User Question: {user_message}
 
-Please provide an authoritative, grounded answer based strictly on the transcript evidence above. If the topic is not covered in Lenny's Podcast transcripts, explicitly state so without hallucinating."""
+{instruction}"""
 
         # 3. Model Generation Step
         adapter = model_router.get_adapter(provider_override)

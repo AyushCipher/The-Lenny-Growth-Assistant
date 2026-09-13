@@ -264,6 +264,7 @@ class GroqAdapter(BaseModelAdapter):
             response = await client.chat.completions.create(
                 model=self.model,
                 temperature=0.3,
+                max_tokens=4096,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
