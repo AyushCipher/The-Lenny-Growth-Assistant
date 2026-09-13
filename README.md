@@ -1,7 +1,7 @@
 # 🚀 The Lenny Growth Assistant
 > **Forward Deployed Engineer Take-Home Assessment**  
 > **Author**: Ayush Verma (`ayushv3533e@gmail.com`)  
-> **Repository**: [https://github.com/ayushverma/lenny-growth-assistant](https://github.com/ayushverma/lenny-growth-assistant)  
+> **Repository**: [https://github.com/AyushCipher/The-Lenny-Growth-Assistant](https://github.com/AyushCipher/The-Lenny-Growth-Assistant)  
 > **Demo Walkthrough Video**: [YouTube Walkthrough (Camera Enabled)](https://youtube.com/watch?v=YOUR_DEMO_VIDEO_ID_HERE)
 
 ---
@@ -160,7 +160,6 @@ pytest backend/tests/ -v
 3. [architecture.md](file:///architecture.md): Technical Architecture, Database Schemas, and RRF Math.
 4. [TRANSCRIPT_LOG.md](file:///agent_transcripts/TRANSCRIPT_LOG.md): Coding agent trajectory, failed attempts, and debugging log.
 5. [UI_TEST_PLAN.md](file:///tests/UI_TEST_PLAN.md): Step-by-step manual UI verification checklist.
-6. [DEMO_SCRIPT.md](file:///demo/DEMO_SCRIPT.md): 2–3 minute video demo script with camera enabled.
 
 ---
 
