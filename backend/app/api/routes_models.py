@@ -18,10 +18,10 @@ async def get_models():
 @router.post("/select")
 async def select_active_model(request: ModelSelectRequest):
     provider = request.provider.lower()
-    if provider not in ["ollama", "anthropic", "openai"]:
+    if provider not in ["ollama", "anthropic", "openai", "groq"]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Invalid provider '{provider}'. Choose from: 'ollama', 'anthropic', 'openai'."
+            detail=f"Invalid provider '{provider}'. Choose from: 'ollama', 'groq', 'anthropic', 'openai'."
         )
 
     model_router.active_provider = provider

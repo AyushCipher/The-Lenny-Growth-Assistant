@@ -32,6 +32,11 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     OPENAI_MODEL: str = "gpt-4o"
 
+    # Groq Cloud API Configuration (Ultra-fast Llama 3.3 / 3.1)
+    GROQ_API_KEY: Optional[str] = None
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
+    GROQ_BASE_URL: str = "https://api.groq.com/openai/v1"
+
     # Hybrid RAG & Ingestion Configuration
     RAG_TOP_K: int = 5
     RRF_K: int = 60

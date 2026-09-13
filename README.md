@@ -39,10 +39,10 @@
              (Hybrid RAG/RRF)  (Writing Engine) (Sanitizer+CSP)
                     ↓
         Application Provider Interface (`models.py`)
-           ┌────────────────┼────────────────┐
-           ↓                ↓                ↓
-      Local Ollama       Anthropic         OpenAI
-    (Mandatory Demo)    Claude SDK          SDK
+      ┌────────────────┬────────────────┬────────────────┐
+      ↓                ↓                ↓                ↓
+ Local Ollama      Groq Cloud       Anthropic         OpenAI
+(Mandatory Demo)  (Ultra Fast)      Claude SDK          SDK
 ```
 
 ---

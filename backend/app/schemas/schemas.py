@@ -188,6 +188,7 @@ class DiagnosticsResponse(BaseModel):
     ollama_models: list[str]
     anthropic_configured: bool
     openai_configured: bool
+    groq_configured: bool = False
     indexed_episodes: int
     indexed_chunks: int
     index_version: str

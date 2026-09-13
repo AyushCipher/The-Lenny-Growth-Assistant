@@ -192,24 +192,80 @@ class OpenAIAdapter(BaseModelAdapter):
             raise RuntimeError(f"OpenAI generation failed: {str(e)}")
 
 
+class GroqAdapter(BaseModelAdapter):
+    def __init__(
+        self,
+        api_key: Optional[str] = settings.GROQ_API_KEY,
+        model: str = settings.GROQ_MODEL,
+        base_url: str = settings.GROQ_BASE_URL
+    ):
+        self.api_key = api_key
+        self.model = model
+        self.base_url = base_url
+
+    async def check_health(self) -> tuple[bool, str]:
+        if not self.api_key:
+            return False, "GROQ_API_KEY is not configured"
+        if not openai:
+            return False, "OpenAI client library is required for Groq"
+        return True, f"Groq Cloud ready ({self.model})"
+
+    async def generate(self, prompt: str, system_prompt: str) -> GenerationResult:
+        if not self.api_key:
+            raise ValueError("Groq API key is not configured. Add GROQ_API_KEY to your .env file.")
+
+        start_time = time.time()
+        client = openai.AsyncOpenAI(api_key=self.api_key, base_url=self.base_url)
+        try:
+            response = await client.chat.completions.create(
+                model=self.model,
+                temperature=0.3,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            latency_ms = (time.time() - start_time) * 1000.0
+            choice = response.choices[0]
+            text = choice.message.content or ""
+            usage = response.usage
+
+            return GenerationResult(
+                text=text,
+                input_tokens=usage.prompt_tokens if usage else None,
+                output_tokens=usage.completion_tokens if usage else None,
+                total_tokens=usage.total_tokens if usage else None,
+                latency_ms=latency_ms,
+                provider="groq",
+                model=self.model
+            )
+        except Exception as e:
+            logger.error(f"Groq API generation failed: {e}")
+            raise RuntimeError(f"Groq Cloud generation failed: {str(e)}")
+
+
 class ModelRouter:
     def __init__(self):
         self.active_provider: str = settings.DEFAULT_PROVIDER
         self.ollama_adapter = OllamaAdapter()
         self.claude_adapter = ClaudeAdapter()
         self.openai_adapter = OpenAIAdapter()
+        self.groq_adapter = GroqAdapter()
 
     def get_adapter(self, provider_override: Optional[str] = None) -> BaseModelAdapter:
         provider = (provider_override or self.active_provider).lower()
-        if provider == "anthropic" or provider == "claude":
+        if provider in ["groq"]:
+            return self.groq_adapter
+        elif provider in ["anthropic", "claude"]:
             return self.claude_adapter
-        elif provider == "openai":
+        elif provider in ["openai"]:
             return self.openai_adapter
         else:
             return self.ollama_adapter
 
     async def list_model_statuses(self) -> list[dict]:
         ollama_ok, ollama_msg = await self.ollama_adapter.check_health()
+        groq_ok, groq_msg = await self.groq_adapter.check_health()
         claude_ok, claude_msg = await self.claude_adapter.check_health()
         openai_ok, openai_msg = await self.openai_adapter.check_health()
 
@@ -221,6 +277,14 @@ class ModelRouter:
                 "is_available": ollama_ok,
                 "status_message": ollama_msg,
                 "is_active": self.active_provider == "ollama"
+            },
+            {
+                "provider": "groq",
+                "model_name": self.groq_adapter.model,
+                "display_name": f"Groq Cloud ({self.groq_adapter.model}) [Ultra Fast]",
+                "is_available": groq_ok,
+                "status_message": groq_msg,
+                "is_active": self.active_provider == "groq"
             },
             {
                 "provider": "anthropic",

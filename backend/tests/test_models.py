@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import AsyncMock, patch
-from app.agent.models import model_router, OllamaAdapter, ClaudeAdapter, OpenAIAdapter, GenerationResult
+from app.agent.models import model_router, OllamaAdapter, ClaudeAdapter, OpenAIAdapter, GroqAdapter, GenerationResult
 
 
 @pytest.mark.asyncio
@@ -8,6 +8,9 @@ async def test_provider_adapter_switching():
     # Test router defaults and switching
     adapter_ollama = model_router.get_adapter("ollama")
     assert isinstance(adapter_ollama, OllamaAdapter)
+
+    adapter_groq = model_router.get_adapter("groq")
+    assert isinstance(adapter_groq, GroqAdapter)
 
     adapter_claude = model_router.get_adapter("anthropic")
     assert isinstance(adapter_claude, ClaudeAdapter)
@@ -47,3 +50,13 @@ async def test_missing_api_key_diagnostics():
     with pytest.raises(ValueError) as exc:
         await claude_no_key.generate("Hello", "System")
     assert "ANTHROPIC_API_KEY" in str(exc.value)
+
+    # Groq with no key should report clean error
+    groq_no_key = GroqAdapter(api_key=None)
+    g_ok, g_msg = await groq_no_key.check_health()
+    assert g_ok is False
+    assert "GROQ_API_KEY" in g_msg
+
+    with pytest.raises(ValueError) as exc_g:
+        await groq_no_key.generate("Hello", "System")
+    assert "GROQ_API_KEY" in str(exc_g.value)

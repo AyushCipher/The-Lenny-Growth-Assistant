@@ -123,23 +123,51 @@ export default function DiagnosticsModal({ isOpen, onClose }) {
                 </div>
               </div>
 
-              {/* RAG Knowledge Base */}
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
-                <div className="text-xs font-bold text-slate-300 flex items-center gap-2">
-                  <Cpu className="w-4 h-4 text-violet-400" /> Hybrid RAG Knowledge Base
+              {/* RAG Knowledge Base & Cloud Providers */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                  <div className="text-xs font-bold text-slate-300 flex items-center gap-2">
+                    <Cpu className="w-4 h-4 text-violet-400" /> Hybrid RAG Knowledge Base
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-slate-400 text-[11px] pt-1">
+                    <div>
+                      <span className="block text-slate-500">Episodes:</span>
+                      <strong className="text-slate-200 text-xs">{diag.indexed_episodes}</strong>
+                    </div>
+                    <div>
+                      <span className="block text-slate-500">Chunks:</span>
+                      <strong className="text-slate-200 text-xs">{diag.indexed_chunks}</strong>
+                    </div>
+                    <div>
+                      <span className="block text-slate-500">Fusion:</span>
+                      <strong className="text-indigo-400 text-xs font-mono">k=60</strong>
+                    </div>
+                  </div>
                 </div>
-                <div className="grid grid-cols-3 gap-2 text-slate-400 text-[11px] pt-1">
-                  <div>
-                    <span className="block text-slate-500">Indexed Episodes:</span>
-                    <strong className="text-slate-200 text-xs">{diag.indexed_episodes}</strong>
+
+                <div className="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                  <div className="text-xs font-bold text-slate-300 flex items-center gap-2">
+                    <Server className="w-4 h-4 text-cyan-400" /> Cloud LLM Providers
                   </div>
-                  <div>
-                    <span className="block text-slate-500">Searchable Chunks:</span>
-                    <strong className="text-slate-200 text-xs">{diag.indexed_chunks}</strong>
-                  </div>
-                  <div>
-                    <span className="block text-slate-500">Fusion Engine:</span>
-                    <strong className="text-indigo-400 text-xs font-mono">BM25 + Dense (k=60)</strong>
+                  <div className="space-y-1 text-slate-400 text-[11px]">
+                    <div className="flex justify-between">
+                      <span>Groq Cloud (Llama 3.3):</span>
+                      <span className={diag.groq_configured ? "text-emerald-400 font-semibold" : "text-slate-500"}>
+                        {diag.groq_configured ? "Ready" : "Not configured"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Anthropic Claude:</span>
+                      <span className={diag.anthropic_configured ? "text-emerald-400 font-semibold" : "text-slate-500"}>
+                        {diag.anthropic_configured ? "Ready" : "Not configured"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>OpenAI:</span>
+                      <span className={diag.openai_configured ? "text-emerald-400 font-semibold" : "text-slate-500"}>
+                        {diag.openai_configured ? "Ready" : "Not configured"}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

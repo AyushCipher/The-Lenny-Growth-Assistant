@@ -61,7 +61,7 @@ async def diagnostics(db: AsyncSession = Depends(get_db)):
     manifest = load_manifest()
 
     return DiagnosticsResponse(
-        status="operational" if (db_ok and (ollama_ok or bool(settings.ANTHROPIC_API_KEY or settings.OPENAI_API_KEY))) else "degraded",
+        status="operational" if (db_ok and (ollama_ok or bool(settings.GROQ_API_KEY or settings.ANTHROPIC_API_KEY or settings.OPENAI_API_KEY))) else "degraded",
         uptime_seconds=round(get_uptime_seconds(), 2),
         database_connected=db_ok,
         database_latency_ms=round(db_latency_ms, 2),
@@ -69,6 +69,7 @@ async def diagnostics(db: AsyncSession = Depends(get_db)):
         ollama_models=ollama_models,
         anthropic_configured=bool(settings.ANTHROPIC_API_KEY),
         openai_configured=bool(settings.OPENAI_API_KEY),
+        groq_configured=bool(settings.GROQ_API_KEY),
         indexed_episodes=len(manifest),
         indexed_chunks=len(index.chunks),
         index_version=index.version,
