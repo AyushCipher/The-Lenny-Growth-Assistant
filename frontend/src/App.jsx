@@ -144,7 +144,16 @@ export default function App() {
 
       loadSessionsList();
     } catch (e) {
-      alert(`Error: ${e.message}`);
+      const errorMsg = {
+        id: `err-${Date.now()}`,
+        role: 'assistant',
+        content: `⚠️ **Generation Error**: ${e.message}\n\n💡 *Tip: For instant sub-3-second responses, select **Groq Cloud** from the top-right model menu.*`,
+        citations: [],
+        model_used: activeProvider,
+        latency_ms: 0,
+        timestamp: new Date().toISOString()
+      };
+      setMessages(prev => [...prev, errorMsg]);
     } finally {
       setIsLoading(false);
     }
@@ -175,7 +184,16 @@ export default function App() {
       setMessages(prev => [...prev, assistantMsg]);
       loadSessionsList();
     } catch (e) {
-      alert(`Ship 30 generation error: ${e.message}`);
+      const errorMsg = {
+        id: `err-${Date.now()}`,
+        role: 'assistant',
+        content: `⚠️ **Ship 30 Essay Error**: ${e.message}\n\n💡 *Tip: For fast generation, choose **Groq Cloud** in the model selector.*`,
+        citations: [],
+        model_used: activeProvider,
+        latency_ms: 0,
+        timestamp: new Date().toISOString()
+      };
+      setMessages(prev => [...prev, errorMsg]);
     } finally {
       setIsLoading(false);
     }

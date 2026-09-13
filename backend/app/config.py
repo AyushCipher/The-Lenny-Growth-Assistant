@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     # Ollama Local LLM Configuration (Mandatory Demo)
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "llama3"
-    OLLAMA_TIMEOUT_SECONDS: float = 60.0
+    OLLAMA_TIMEOUT_SECONDS: float = 180.0
 
     # Anthropic Claude SDK Configuration
     ANTHROPIC_API_KEY: Optional[str] = None

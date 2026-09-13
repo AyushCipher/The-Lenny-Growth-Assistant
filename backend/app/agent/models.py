@@ -83,11 +83,12 @@ class OllamaAdapter(BaseModelAdapter):
             "options": {
                 "temperature": 0.3,
                 "top_p": 0.9,
+                "num_predict": 1024
             }
         }
 
         try:
-            async with httpx.AsyncClient(timeout=self.timeout) as client:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(self.timeout, connect=10.0)) as client:
                 res = await client.post(url, json=payload)
                 if res.status_code == 404:
                     raise RuntimeError(
@@ -111,14 +112,22 @@ class OllamaAdapter(BaseModelAdapter):
                     provider="ollama",
                     model=active_model
                 )
+        except httpx.TimeoutException:
+            latency_ms = (time.time() - start_time) * 1000.0
+            logger.error(f"Ollama request timed out after {self.timeout}s")
+            raise RuntimeError(
+                f"Local Ollama generation timed out after {int(self.timeout)}s on CPU. "
+                "For instant responses (< 3s), switch to Groq Cloud in the top-right model dropdown."
+            )
         except Exception as e:
             latency_ms = (time.time() - start_time) * 1000.0
-            logger.error(f"Ollama generation failed: {e}")
-            if "model" in str(e).lower() and "not found" in str(e).lower():
-                raise RuntimeError(str(e))
+            err_str = str(e).strip() or type(e).__name__
+            logger.error(f"Ollama generation failed: {err_str}")
+            if "model" in err_str.lower() and "not found" in err_str.lower():
+                raise RuntimeError(err_str)
             raise RuntimeError(
-                f"Ollama generation failed: {str(e)}. "
-                f"Ensure Ollama is running and model '{self.model}' is downloaded (`ollama pull {self.model}`). "
+                f"Ollama generation failed ({err_str}). "
+                f"Ensure Ollama is running (`ollama serve`) and model '{active_model}' is downloaded (`ollama pull {self.model}`). "
                 "Alternatively, select Groq Cloud in the top-right model menu."
             )
 
